@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spotify:
+  api:
+    url:
+    authorizationUrl: 'https://accounts.spotify.com'
+    clientId: '1c073b841eeb41e98c84b41715001a0a'
+    clientSecret: '91b43a8990cf451db92e3faa726795d2'
+    redirectUrl: 'https://spring.io/'
+    # redirectUrl: 'http://localhost:8080/authorizeCallback'
