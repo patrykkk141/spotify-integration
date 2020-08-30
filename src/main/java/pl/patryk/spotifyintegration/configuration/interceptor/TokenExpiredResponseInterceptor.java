@@ -11,9 +11,9 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
-import pl.patryk.spotifyintegration.configuration.Properties;
 import pl.patryk.spotifyintegration.dto.auth.AccessTokenResponse;
 import pl.patryk.spotifyintegration.service.auth.AuthorizeService;
+import pl.patryk.spotifyintegration.service.token.TokenService;
 
 @Slf4j
 @Component
@@ -23,14 +23,13 @@ public class TokenExpiredResponseInterceptor implements ClientHttpRequestInterce
   private static int maxAttempts = 3;
 
   private final AuthorizeService authorizeService;
-  private final Properties properties;
+  private final TokenService tokenService;
 
   @Autowired
   public TokenExpiredResponseInterceptor(
-      AuthorizeService authorizeService,
-      Properties properties) {
+      AuthorizeService authorizeService, TokenService tokenService) {
     this.authorizeService = authorizeService;
-    this.properties = properties;
+    this.tokenService = tokenService;
   }
 
   @Override
@@ -46,15 +45,15 @@ public class TokenExpiredResponseInterceptor implements ClientHttpRequestInterce
       for (int i = 0; i < maxAttempts; i++) {
         log.debug("Trying to refresh token and repeat request. Attempt - {}", i);
         AccessTokenResponse tokenResponse = authorizeService
-            .getAccessToken(properties.getRefreshToken());
+            .getAccessToken(tokenService.getRefreshToken());
 
         request.getHeaders().setBearerAuth(tokenResponse.getAccessToken());
         response = execution.execute(request, body);
 
         if (!response.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
           log.info("Access token successfully refreshed.");
+          tokenService.saveTokenResponse(tokenResponse);
           break;
-          // TODO: 30.08.2020 Update access token
         }
       }
     }

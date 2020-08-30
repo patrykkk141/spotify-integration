@@ -1,22 +1,12 @@
 server:
   port: 8080
 
-logging:
-  level:
-    org:
-      springframework:
-        web:
-          client:
-            RestTemplate: DEBUG
-
 spotify:
   api:
     url: 'https://api.spotify.com/v1'
     authorizationUrl: 'https://accounts.spotify.com'
-    clientId: '1c073b841eeb41e98c84b41715001a0a'
-    clientSecret: '91b43a8990cf451db92e3faa726795d2'
+    clientId: 'censored'
+    clientSecret: 'censored'
     redirectUrl: 'https://spring.io/'
-    # redirectUrl: 'http://localhost:8080/authorizeCallback'
-    token: 'BQBK8Xf3RU4sWLRViCsEiX7dg1BuJccgcEUOXogf7rCXaKqbMhb3C5LYAyminifuMB1oD-gO_zcfgYThl5qXl8CbJeXgquT2_s-nMaUuZe4PzuoTt2JgdkN2A1GwkvbJzsd9yMHAAQb_M7gOd8CnfNfRPLfWTil8Lw'
-    refreshToken: 'AQBv8nQPZJA4yEEIU8YePK-Wr14pXb_hd5Rrf6IRa05OZYEwISo9izl7E9ogaxymHxtmTKx51y9kEilvX3lrvCHqpqF1JfV4C-CGYkUx2Ps2-V2e6ax8YEsA5mJeuR27Fqc'
-    authCode: 'AQBd-o3TLhDCNJAPbpXyP_gt_7yehRzvNjjvyJDxjPoX_lZ8EuwSD9shdjEgAeJPpiaXvhotBfh8abAw3nF7_-0aEU2XPhmvXD2gtmTLJYbeyNlFmx-I18HvLQxtbR_oGMihRTvQXSTKQCv0Qd9_EpnuHc2QZw'
+    token: 'censored'
+    refreshToken: 'censored'
