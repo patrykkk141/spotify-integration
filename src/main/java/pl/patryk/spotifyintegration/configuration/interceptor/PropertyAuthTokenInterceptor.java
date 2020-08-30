@@ -4,6 +4,8 @@ import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -16,6 +18,7 @@ import pl.patryk.spotifyintegration.exception.PropertyNotFoundException;
 @Slf4j
 @Component
 @Profile("propertyToken")
+@Order(Ordered.LOWEST_PRECEDENCE - 10)
 public final class PropertyAuthTokenInterceptor implements SpotifyAuthInterceptor {
 
   @Value("${spotify.api.token}")

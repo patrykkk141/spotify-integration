@@ -3,26 +3,32 @@ package pl.patryk.spotifyintegration.configuration;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Duration;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import pl.patryk.spotifyintegration.configuration.interceptor.SpotifyAuthInterceptor;
+import pl.patryk.spotifyintegration.configuration.interceptor.TokenExpiredResponseInterceptor;
 
 @Configuration
-public class ClientConfiguration {
+public class SpotifyClientConfiguration {
 
   private Properties properties;
   private SpotifyAuthInterceptor spotifyAuthInterceptor;
+  private TokenExpiredResponseInterceptor tokenExpiredResponseInterceptor;
 
   @Autowired
-  public ClientConfiguration(Properties properties,
-      SpotifyAuthInterceptor spotifyAuthInterceptor) {
+  public SpotifyClientConfiguration(Properties properties,
+      SpotifyAuthInterceptor spotifyAuthInterceptor,
+      @Lazy TokenExpiredResponseInterceptor tokenExpiredResponseInterceptor) {
     this.properties = properties;
     this.spotifyAuthInterceptor = spotifyAuthInterceptor;
+    this.tokenExpiredResponseInterceptor = tokenExpiredResponseInterceptor;
   }
 
   @Bean(name = "spotifyClient")
@@ -33,7 +39,7 @@ public class ClientConfiguration {
         .setConnectTimeout(Duration.ofMinutes(1))
         .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
         .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
-        .interceptors(spotifyAuthInterceptor)
+        .interceptors(Set.of(spotifyAuthInterceptor, tokenExpiredResponseInterceptor))
         .build();
   }
 
