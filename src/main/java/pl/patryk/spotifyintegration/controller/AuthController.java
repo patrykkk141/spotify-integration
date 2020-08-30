@@ -30,8 +30,9 @@ public class AuthController {
     }
 
     @GetMapping("/authorizeCallback")
-    public ResponseEntity<String> handleAuthorizeCallback(@RequestParam(value = "code", required = false) String code,
-                                                          @RequestParam(value = "error", required = false) String error) {
+    public ResponseEntity<String> handleAuthorizeCallback(
+        @RequestParam(value = "code", required = false) String code,
+        @RequestParam(value = "error", required = false) String error) {
         log.info("Handling authorize callback");
 
         if (error == null) {

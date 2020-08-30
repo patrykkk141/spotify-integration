@@ -1,5 +1,8 @@
 package pl.patryk.spotifyintegration.service;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +13,6 @@ import org.springframework.web.client.RestTemplate;
 import pl.patryk.spotifyintegration.configuration.Properties;
 import pl.patryk.spotifyintegration.dto.auth.AccessTokenResponse;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-
 @Service
 public class AuthorizeServiceImpl implements AuthorizeService {
 
@@ -21,7 +20,8 @@ public class AuthorizeServiceImpl implements AuthorizeService {
     private RestTemplate authClient;
 
     @Autowired
-    public AuthorizeServiceImpl(Properties properties, @Qualifier("spotifyAuthClient") RestTemplate authClient) {
+    public AuthorizeServiceImpl(Properties properties,
+        @Qualifier("spotifyAuthClient") RestTemplate authClient) {
         this.properties = properties;
         this.authClient = authClient;
     }
@@ -29,11 +29,11 @@ public class AuthorizeServiceImpl implements AuthorizeService {
     @Override
     public String getAuthorizeUrl() {
         return properties.getAuthorizationUrl() +
-                "/authorize?client_id=" +
-                properties.getClientId() +
-                "&response_type=code" +
-                "&redirect_uri=" +
-                URLEncoder.encode(properties.getRedirectUrl(), StandardCharsets.UTF_8);
+            "/authorize?client_id=" +
+            properties.getClientId() +
+            "&response_type=code" +
+            "&redirect_uri=" +
+            URLEncoder.encode(properties.getRedirectUrl(), StandardCharsets.UTF_8);
     }
 
     @Override
