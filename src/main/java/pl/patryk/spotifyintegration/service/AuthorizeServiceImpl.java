@@ -37,12 +37,14 @@ public class AuthorizeServiceImpl implements AuthorizeService {
     }
 
     @Override
-    public ResponseEntity<AccessTokenResponse> getAccessToken(String code) {
+    public AccessTokenResponse getAccessToken(String code) {
         MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
         form.put("code", Collections.singletonList(code));
         form.put("redirect_uri", Collections.singletonList(properties.getRedirectUrl()));
         form.put("grant_type", Collections.singletonList("authorization_code"));
 
-        return authClient.postForEntity("/api/token", form, AccessTokenResponse.class);
+        ResponseEntity<AccessTokenResponse> response = authClient
+            .postForEntity("/api/token", form, AccessTokenResponse.class);
+        return response.getBody();
     }
 }

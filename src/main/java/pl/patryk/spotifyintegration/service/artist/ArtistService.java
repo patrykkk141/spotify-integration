@@ -1,4 +1,4 @@
-package pl.patryk.spotifyintegration.service;
+package pl.patryk.spotifyintegration.service.artist;
 
 import org.springframework.stereotype.Service;
 

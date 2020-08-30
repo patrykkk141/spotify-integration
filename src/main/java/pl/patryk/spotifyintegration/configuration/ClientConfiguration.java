@@ -1,5 +1,6 @@
 package pl.patryk.spotifyintegration.configuration;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,10 @@ public class ClientConfiguration {
 
   @Bean
   public ObjectMapper getObjectMapperBean() {
-    return new ObjectMapper();
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    return objectMapper;
   }
 
 }
