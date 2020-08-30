@@ -9,3 +9,4 @@ spotify:
     clientSecret: '91b43a8990cf451db92e3faa726795d2'
     redirectUrl: 'https://spring.io/'
     # redirectUrl: 'http://localhost:8080/authorizeCallback'
+    token: 'example'

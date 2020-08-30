@@ -9,15 +9,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
+import pl.patryk.spotifyintegration.configuration.interceptor.SpotifyAuthInterceptor;
 
 @Configuration
 public class ClientConfiguration {
 
   private Properties properties;
+  private SpotifyAuthInterceptor spotifyAuthInterceptor;
 
   @Autowired
-  public ClientConfiguration(Properties properties) {
+  public ClientConfiguration(Properties properties,
+      SpotifyAuthInterceptor spotifyAuthInterceptor) {
     this.properties = properties;
+    this.spotifyAuthInterceptor = spotifyAuthInterceptor;
   }
 
   @Bean(name = "spotifyClient")
@@ -28,6 +32,7 @@ public class ClientConfiguration {
         .setConnectTimeout(Duration.ofMinutes(1))
         .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
         .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+        .interceptors(spotifyAuthInterceptor)
         .build();
   }
 
