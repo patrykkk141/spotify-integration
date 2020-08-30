@@ -1,4 +1,4 @@
-package pl.patryk.spotifyintegration.service;
+package pl.patryk.spotifyintegration.service.auth;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;

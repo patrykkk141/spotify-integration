@@ -14,7 +14,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import pl.patryk.spotifyintegration.dto.auth.AccessTokenResponse;
 import pl.patryk.spotifyintegration.exception.PropertyNotFoundException;
-import pl.patryk.spotifyintegration.service.AuthorizeService;
+import pl.patryk.spotifyintegration.service.auth.AuthorizeService;
 
 @Slf4j
 @Profile("propertyCodeAuth")

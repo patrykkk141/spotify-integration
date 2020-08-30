@@ -1,4 +1,4 @@
-package pl.patryk.spotifyintegration.service;
+package pl.patryk.spotifyintegration.service.auth;
 
 import pl.patryk.spotifyintegration.dto.auth.AccessTokenResponse;
 
