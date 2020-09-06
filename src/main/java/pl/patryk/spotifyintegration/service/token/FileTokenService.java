@@ -25,6 +25,7 @@ public class FileTokenService implements TokenService {
 
   @Override
   public void saveTokenResponse(@NotNull AccessTokenResponse tokenResponse) {
+    log.info("Saving token response");
     try {
       saveToFile(tokenResponse);
     } catch (IOException e) {
@@ -35,6 +36,7 @@ public class FileTokenService implements TokenService {
 
   @Override
   public String getAccessToken() {
+    log.info("Getting access token from file");
     AccessTokenResponse tokenObject;
     try {
       tokenObject = readFromFile(TOKEN_FILE_NAME);

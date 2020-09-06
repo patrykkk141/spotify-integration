@@ -3,6 +3,7 @@ package pl.patryk.spotifyintegration.configuration.interceptor;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -24,7 +25,7 @@ public class FileAuthTokenInterceptor implements SpotifyAuthInterceptor {
 
   @Autowired
   public FileAuthTokenInterceptor(
-      TokenService tokenService) {
+      @Lazy TokenService tokenService) {
     this.tokenService = tokenService;
   }
 

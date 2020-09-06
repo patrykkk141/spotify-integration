@@ -3,7 +3,7 @@ package pl.patryk.spotifyintegration.dto;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum SpotifyModelType {
-  ARTIST("artist"), TRACK("track");
+  ARTIST("artist"), TRACK("track"), ALBUM("album");
 
   private String name;
 

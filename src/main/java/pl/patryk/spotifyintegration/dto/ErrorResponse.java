@@ -5,19 +5,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Error {
+public class ErrorResponse {
 
-    public Error() {
+    public ErrorResponse() {
         this.timestamp = System.currentTimeMillis();
     }
 
-    public Error(String code, String description) {
+    public ErrorResponse(int code, String description) {
         this.code = code;
         this.description = description;
         this.timestamp = System.currentTimeMillis();
     }
 
-    private String code;
+    private int code;
     private String description;
     private long timestamp;
 
