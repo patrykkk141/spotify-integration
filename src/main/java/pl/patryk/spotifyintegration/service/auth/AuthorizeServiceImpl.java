@@ -3,6 +3,7 @@ package pl.patryk.spotifyintegration.service.auth;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,17 @@ public class AuthorizeServiceImpl implements AuthorizeService {
         form.put("code", Collections.singletonList(code));
         form.put("redirect_uri", Collections.singletonList(properties.getRedirectUrl()));
         form.put("grant_type", Collections.singletonList("authorization_code"));
+
+        ResponseEntity<AccessTokenResponse> response = authClient
+            .postForEntity("/api/token", form, AccessTokenResponse.class);
+        return response.getBody();
+    }
+
+    @Override
+    public AccessTokenResponse getRefreshToken(@NotNull String refreshToken) {
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        form.put("refresh_token", Collections.singletonList(refreshToken));
+        form.put("grant_type", Collections.singletonList("refresh_token"));
 
         ResponseEntity<AccessTokenResponse> response = authClient
             .postForEntity("/api/token", form, AccessTokenResponse.class);

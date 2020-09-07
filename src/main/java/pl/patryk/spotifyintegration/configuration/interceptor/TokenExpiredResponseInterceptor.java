@@ -44,8 +44,13 @@ public class TokenExpiredResponseInterceptor implements ClientHttpRequestInterce
 
       for (int i = 0; i < maxAttempts; i++) {
         log.debug("Trying to refresh token and repeat request. Attempt - {}", i);
+        String refreshToken = tokenService.getRefreshToken();
         AccessTokenResponse tokenResponse = authorizeService
-            .getAccessToken(tokenService.getRefreshToken());
+            .getRefreshToken(refreshToken);
+
+        if (tokenResponse.getRefreshToken() == null) {
+          tokenResponse.setRefreshToken(refreshToken);
+        }
 
         request.getHeaders().setBearerAuth(tokenResponse.getAccessToken());
         response = execution.execute(request, body);

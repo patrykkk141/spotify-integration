@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import pl.patryk.spotifyintegration.dto.ErrorResponse;
 import pl.patryk.spotifyintegration.dto.spotify_error.SpotifyErrorWrapper;
+import pl.patryk.spotifyintegration.exception.TokenNotFoundException;
 
 @ControllerAdvice
 @Slf4j
@@ -25,6 +26,7 @@ public class ErrorHandler {
 
   @ExceptionHandler(value = {HttpClientErrorException.class})
   protected ResponseEntity<ErrorResponse> handleSpotifyClientError(HttpClientErrorException e) {
+    log.info("Handling spotify client exception");
     log.error("Spotify client exception", e);
     SpotifyErrorWrapper spotifyError = null;
     try {
@@ -44,5 +46,14 @@ public class ErrorHandler {
     }
 
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(value = {TokenNotFoundException.class})
+  protected ResponseEntity<ErrorResponse> handleTokenNotFoundException() {
+    log.info("Handling " + TokenNotFoundException.class.getSimpleName());
+
+    ErrorResponse response = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(),
+        "Token not found. Please repeat login process");
+    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 }

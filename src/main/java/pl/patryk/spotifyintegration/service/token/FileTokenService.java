@@ -37,23 +37,39 @@ public class FileTokenService implements TokenService {
   @Override
   public String getAccessToken() {
     log.info("Getting access token from file");
-    AccessTokenResponse tokenObject;
-    try {
-      tokenObject = readFromFile(TOKEN_FILE_NAME);
-      return tokenObject.getAccessToken();
-    } catch (IOException e) {
-      log.error("Cannot parse file to AccessTokenResponse type");
-      throw new TokenNotFoundException("AccessToken not found");
-    }
+
+    AccessTokenResponse tokenObject = getTokenObjectFromFile(TOKEN_FILE_NAME);
+    return getTokenByType(tokenObject, "ACCESS_TOKEN");
   }
 
   @Override
   public String getRefreshToken() {
-    return null;
+    log.info("Getting refresh token from file");
+
+    AccessTokenResponse tokenObject = getTokenObjectFromFile(TOKEN_FILE_NAME);
+    return getTokenByType(tokenObject, "REFRESH_TOKEN");
   }
 
-  private AccessTokenResponse readFromFile(String file) throws IOException {
-    return objectMapper.readValue(new File(file), AccessTokenResponse.class);
+  private AccessTokenResponse getTokenObjectFromFile(String file) {
+    AccessTokenResponse tokenObject;
+    try {
+      tokenObject = objectMapper.readValue(new File(file), AccessTokenResponse.class);
+    } catch (IOException e) {
+      log.error("Cannot parse file to AccessTokenResponse type");
+      throw new TokenNotFoundException("No file containing tokens was found.");
+    }
+    return tokenObject;
+  }
+
+  private String getTokenByType(AccessTokenResponse response, String tokenType) {
+    switch (tokenType) {
+      case "ACCESS_TOKEN":
+        return response.getAccessToken();
+      case "REFRESH_TOKEN":
+        return response.getRefreshToken();
+      default:
+        throw new IllegalStateException(String.format("Unrecognized token type - %s", tokenType));
+    }
   }
 
   private void saveToFile(AccessTokenResponse tokenObject) throws IOException {
