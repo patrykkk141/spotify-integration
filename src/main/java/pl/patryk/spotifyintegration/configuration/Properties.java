@@ -20,10 +20,8 @@ public class Properties {
     private String clientSecret;
     @NotEmpty
     private String redirectUrl;
-
-    // TODO: 30.08.2020 Probably to refactor 
     @NotEmpty
-    private String refreshToken;
+    private String defaultCountryCode;
 
 }
 

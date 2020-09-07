@@ -10,3 +10,4 @@ spotify:
     redirectUrl: 'https://spring.io/'
     token: 'censored'
     refreshToken: 'censored'
+    defaultCountryCode: 'PL'
