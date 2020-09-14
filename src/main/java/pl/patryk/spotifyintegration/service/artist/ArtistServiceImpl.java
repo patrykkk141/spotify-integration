@@ -1,39 +1,60 @@
 package pl.patryk.spotifyintegration.service.artist;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 import javax.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import pl.patryk.spotifyintegration.configuration.Properties;
+import pl.patryk.spotifyintegration.converter.TracksConverter;
 import pl.patryk.spotifyintegration.dto.track.TrackCollectionWrapper;
+import pl.patryk.spotifyintegration.model.TopTracks;
 
+@Slf4j
 @Service
 public class ArtistServiceImpl implements ArtistService {
 
-  private static final String ARTIST_RESOURCE = "/artists";
-  private static final String TOP_TRACKS_RESOURCE = "/top-tracks";
-  private static final String COUNTRY_CODE = "?country={country}";
-
-  private RestTemplate apiClient;
-  private Properties properties;
+  private final ApiArtistService apiArtistService;
+  private final DbArtistService dbArtistService;
 
   @Autowired
-  public ArtistServiceImpl(@Qualifier("spotifyClient") RestTemplate apiClient,
-      Properties properties) {
-    this.apiClient = apiClient;
-    this.properties = properties;
+  public ArtistServiceImpl(
+      ApiArtistService apiArtistService,
+      DbArtistService dbArtistService) {
+    this.apiArtistService = apiArtistService;
+    this.dbArtistService = dbArtistService;
   }
 
   @Override
-  public TrackCollectionWrapper getArtistTopTracks(@NotNull String artistId) {
-    Map<String, String> uriParams = new HashMap<>();
-    uriParams.put("country", properties.getDefaultCountryCode());
+  public Optional<TopTracks> getStoredTopTracks(@NotNull String artistId) {
+    return dbArtistService.getFromDatabase(artistId);
+  }
 
-    return apiClient
-        .getForEntity(ARTIST_RESOURCE + "/" + artistId + "/" + TOP_TRACKS_RESOURCE + COUNTRY_CODE,
-            TrackCollectionWrapper.class, uriParams).getBody();
+  @Override
+  public TopTracks storeArtistTopTracksFromApi(@NotNull String artistsId) {
+    log.info("Storing artist top tracks in database. Artist id - {}", artistsId);
+    TrackCollectionWrapper trackCollection = apiArtistService.getArtistTopTracks(artistsId);
+
+    TopTracks topTracks = TracksConverter.convertToTopTracks(trackCollection);
+    topTracks.setArtistId(artistsId);
+
+    return dbArtistService.save(topTracks);
+  }
+
+
+  @Override
+  public TopTracks updateArtistTopTrack(@NotNull String artistsId) {
+    log.info("Updating artist top tracks for artist id - {}", artistsId);
+    TrackCollectionWrapper trackCollection = apiArtistService.getArtistTopTracks(artistsId);
+
+    TopTracks topTracks = TracksConverter.convertToTopTracks(trackCollection);
+    topTracks.setArtistId(artistsId);
+
+    return dbArtistService.updateTopTracks(artistsId, topTracks);
+  }
+
+  @Override
+  public void deleteArtistTopTracks(@NotNull String artistsId) {
+    log.info("Deleting top tracks for artist id - {}", artistsId);
+    dbArtistService.deleteTopTrack(artistsId);
   }
 }

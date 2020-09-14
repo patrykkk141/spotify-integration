@@ -8,6 +8,13 @@ spotify:
     clientId: 'censored'
     clientSecret: 'censored'
     redirectUrl: 'https://spring.io/'
-    token: 'censored'
-    refreshToken: 'censored'
     defaultCountryCode: 'PL'
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: spotify_integration
+      username: 'test'
+      password: 'qwert6'

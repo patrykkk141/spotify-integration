@@ -1,12 +1,17 @@
 package pl.patryk.spotifyintegration.service.artist;
 
+import java.util.Optional;
 import javax.validation.constraints.NotNull;
-import org.springframework.stereotype.Service;
-import pl.patryk.spotifyintegration.dto.track.TrackCollectionWrapper;
+import pl.patryk.spotifyintegration.model.TopTracks;
 
-@Service
 public interface ArtistService {
 
-  TrackCollectionWrapper getArtistTopTracks(@NotNull String artistId);
+  Optional<TopTracks> getStoredTopTracks(@NotNull String artistId);
+
+  TopTracks storeArtistTopTracksFromApi(@NotNull String artistsId);
+
+  TopTracks updateArtistTopTrack(@NotNull String artistsId);
+
+  void deleteArtistTopTracks(@NotNull String artistsId);
 
 }
