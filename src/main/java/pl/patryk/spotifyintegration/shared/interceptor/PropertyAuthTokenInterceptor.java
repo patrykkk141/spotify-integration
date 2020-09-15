@@ -19,7 +19,7 @@ import pl.patryk.spotifyintegration.exception.PropertyNotFoundException;
 @Component
 @Profile("propertyToken")
 @Order(Ordered.LOWEST_PRECEDENCE - 10)
-public final class PropertyAuthTokenInterceptor implements SpotifyAuthInterceptor {
+public final class PropertyAuthTokenInterceptor implements ISpotifyAuthInterceptor {
 
   @Value("${spotify.api.token}")
   private String token;

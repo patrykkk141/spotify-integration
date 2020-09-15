@@ -13,19 +13,19 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import pl.patryk.spotifyintegration.service.token.TokenService;
+import pl.patryk.spotifyintegration.service.token.ITokenService;
 
 @Slf4j
 @Component
 @Order(Ordered.LOWEST_PRECEDENCE - 10)
 @Profile("fileToken")
-public class FileAuthTokenInterceptor implements SpotifyAuthInterceptor {
+public class FileAuthTokenInterceptor implements ISpotifyAuthInterceptor {
 
-  private final TokenService tokenService;
+  private final ITokenService tokenService;
 
   @Autowired
   public FileAuthTokenInterceptor(
-      @Lazy TokenService tokenService) {
+      @Lazy ITokenService tokenService) {
     this.tokenService = tokenService;
   }
 

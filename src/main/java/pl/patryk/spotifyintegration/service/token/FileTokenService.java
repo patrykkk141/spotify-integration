@@ -12,7 +12,7 @@ import pl.patryk.spotifyintegration.exception.TokenNotFoundException;
 
 @Service
 @Slf4j
-public class FileTokenService implements TokenService {
+public class FileTokenService implements ITokenService {
 
   private static final String TOKEN_FILE_NAME = "tokens.json";
 

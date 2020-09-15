@@ -12,8 +12,8 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import pl.patryk.spotifyintegration.dto.auth.AccessTokenResponse;
-import pl.patryk.spotifyintegration.service.auth.AuthorizeService;
-import pl.patryk.spotifyintegration.service.token.TokenService;
+import pl.patryk.spotifyintegration.service.auth.IAuthorizeService;
+import pl.patryk.spotifyintegration.service.token.ITokenService;
 
 @Slf4j
 @Component
@@ -22,12 +22,12 @@ public class TokenExpiredResponseInterceptor implements ClientHttpRequestInterce
 
   private static int maxAttempts = 3;
 
-  private final AuthorizeService authorizeService;
-  private final TokenService tokenService;
+  private final IAuthorizeService authorizeService;
+  private final ITokenService tokenService;
 
   @Autowired
   public TokenExpiredResponseInterceptor(
-      AuthorizeService authorizeService, TokenService tokenService) {
+      IAuthorizeService authorizeService, ITokenService tokenService) {
     this.authorizeService = authorizeService;
     this.tokenService = tokenService;
   }

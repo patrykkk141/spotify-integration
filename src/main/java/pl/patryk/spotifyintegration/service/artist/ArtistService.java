@@ -2,16 +2,59 @@ package pl.patryk.spotifyintegration.service.artist;
 
 import java.util.Optional;
 import javax.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import pl.patryk.spotifyintegration.converter.TracksConverter;
+import pl.patryk.spotifyintegration.dto.track.TrackCollectionWrapper;
 import pl.patryk.spotifyintegration.model.TopTracks;
 
-public interface ArtistService {
+@Slf4j
+@Service
+public class ArtistService implements IArtistService {
 
-  Optional<TopTracks> getStoredTopTracks(@NotNull String artistId);
+  private final IApiArtistService apiArtistService;
+  private final IDBArtistService dbArtistService;
 
-  TopTracks storeArtistTopTracksFromApi(@NotNull String artistsId);
+  @Autowired
+  public ArtistService(
+      IApiArtistService apiArtistService,
+      IDBArtistService dbArtistService) {
+    this.apiArtistService = apiArtistService;
+    this.dbArtistService = dbArtistService;
+  }
 
-  TopTracks updateArtistTopTrack(@NotNull String artistsId);
+  @Override
+  public Optional<TopTracks> getStoredTopTracks(@NotNull String artistId) {
+    return dbArtistService.getFromDatabase(artistId);
+  }
 
-  void deleteArtistTopTracks(@NotNull String artistsId);
+  @Override
+  public TopTracks storeArtistTopTracksFromApi(@NotNull String artistsId) {
+    log.info("Storing artist top tracks in database. Artist id - {}", artistsId);
+    TrackCollectionWrapper trackCollection = apiArtistService.getArtistTopTracks(artistsId);
 
+    TopTracks topTracks = TracksConverter.convertToTopTracks(trackCollection);
+    topTracks.setArtistId(artistsId);
+
+    return dbArtistService.save(topTracks);
+  }
+
+
+  @Override
+  public TopTracks updateArtistTopTrack(@NotNull String artistsId) {
+    log.info("Updating artist top tracks for artist id - {}", artistsId);
+    TrackCollectionWrapper trackCollection = apiArtistService.getArtistTopTracks(artistsId);
+
+    TopTracks topTracks = TracksConverter.convertToTopTracks(trackCollection);
+    topTracks.setArtistId(artistsId);
+
+    return dbArtistService.updateTopTracks(artistsId, topTracks);
+  }
+
+  @Override
+  public void deleteArtistTopTracks(@NotNull String artistsId) {
+    log.info("Deleting top tracks for artist id - {}", artistsId);
+    dbArtistService.deleteTopTrack(artistsId);
+  }
 }

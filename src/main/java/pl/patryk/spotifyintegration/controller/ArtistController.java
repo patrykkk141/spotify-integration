@@ -15,8 +15,8 @@ import pl.patryk.spotifyintegration.dto.artist.ArtistSearchResultWrapper;
 import pl.patryk.spotifyintegration.dto.track.TrackCollectionWrapper;
 import pl.patryk.spotifyintegration.exception.EntityNotFoundException;
 import pl.patryk.spotifyintegration.model.TopTracks;
-import pl.patryk.spotifyintegration.service.artist.ApiArtistService;
-import pl.patryk.spotifyintegration.service.artist.ArtistService;
+import pl.patryk.spotifyintegration.service.artist.IApiArtistService;
+import pl.patryk.spotifyintegration.service.artist.IArtistService;
 import pl.patryk.spotifyintegration.service.search.SearchArtistService;
 
 @RestController
@@ -24,13 +24,13 @@ import pl.patryk.spotifyintegration.service.search.SearchArtistService;
 public class ArtistController {
 
   private final SearchArtistService searchArtistService;
-  private final ApiArtistService apiArtistService;
-  private final ArtistService artistService;
+  private final IApiArtistService apiArtistService;
+  private final IArtistService artistService;
 
   @Autowired
   public ArtistController(SearchArtistService searchArtistService,
-      ApiArtistService apiArtistService,
-      ArtistService artistService) {
+      IApiArtistService apiArtistService,
+      IArtistService artistService) {
     this.searchArtistService = searchArtistService;
     this.apiArtistService = apiArtistService;
     this.artistService = artistService;

@@ -4,7 +4,7 @@ import java.util.Optional;
 import javax.validation.constraints.NotNull;
 import pl.patryk.spotifyintegration.model.TopTracks;
 
-public interface DbArtistService {
+public interface IDBArtistService {
 
   TopTracks save(@NotNull TopTracks topTracks);
 

@@ -12,7 +12,7 @@ import pl.patryk.spotifyintegration.dto.artist.ArtistSearchResultWrapper;
 
 @Service
 public class SearchArtistService implements
-    SearchService<ArtistSearchResultWrapper> {
+    ISearchService<ArtistSearchResultWrapper> {
 
   private static final String SEARCH_RESOURCE = "/search?q={q}&type={type}";
 

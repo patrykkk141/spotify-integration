@@ -12,19 +12,19 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
-import pl.patryk.spotifyintegration.shared.interceptor.SpotifyAuthInterceptor;
+import pl.patryk.spotifyintegration.shared.interceptor.ISpotifyAuthInterceptor;
 import pl.patryk.spotifyintegration.shared.interceptor.TokenExpiredResponseInterceptor;
 
 @Configuration
 public class SpotifyClientConfiguration {
 
   private Properties properties;
-  private SpotifyAuthInterceptor spotifyAuthInterceptor;
+  private ISpotifyAuthInterceptor spotifyAuthInterceptor;
   private TokenExpiredResponseInterceptor tokenExpiredResponseInterceptor;
 
   @Autowired
   public SpotifyClientConfiguration(Properties properties,
-      SpotifyAuthInterceptor spotifyAuthInterceptor,
+      ISpotifyAuthInterceptor spotifyAuthInterceptor,
       @Lazy TokenExpiredResponseInterceptor tokenExpiredResponseInterceptor) {
     this.properties = properties;
     this.spotifyAuthInterceptor = spotifyAuthInterceptor;

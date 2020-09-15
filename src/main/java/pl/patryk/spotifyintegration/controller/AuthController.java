@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.patryk.spotifyintegration.dto.auth.AccessTokenResponse;
-import pl.patryk.spotifyintegration.service.auth.AuthorizeService;
-import pl.patryk.spotifyintegration.service.token.TokenService;
+import pl.patryk.spotifyintegration.service.auth.IAuthorizeService;
+import pl.patryk.spotifyintegration.service.token.ITokenService;
 
 @Slf4j
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-  private final AuthorizeService authorizeService;
-  private final TokenService tokenService;
+  private final IAuthorizeService authorizeService;
+  private final ITokenService tokenService;
 
   @Autowired
-  public AuthController(AuthorizeService authorizeService,
-      TokenService tokenService) {
+  public AuthController(IAuthorizeService authorizeService,
+      ITokenService tokenService) {
     this.authorizeService = authorizeService;
     this.tokenService = tokenService;
   }

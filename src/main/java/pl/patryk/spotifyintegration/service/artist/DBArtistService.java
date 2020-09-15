@@ -6,16 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.patryk.spotifyintegration.exception.EntityNotFoundException;
 import pl.patryk.spotifyintegration.model.TopTracks;
-import pl.patryk.spotifyintegration.repository.TopTracksRepository;
+import pl.patryk.spotifyintegration.repository.ITopTracksRepository;
 
 @Service
-public class DbArtistServiceImpl implements DbArtistService {
+public class DBArtistService implements IDBArtistService {
 
-  private final TopTracksRepository topTracksRepository;
+  private final ITopTracksRepository topTracksRepository;
 
   @Autowired
-  public DbArtistServiceImpl(
-      TopTracksRepository topTracksRepository) {
+  public DBArtistService(
+      ITopTracksRepository topTracksRepository) {
     this.topTracksRepository = topTracksRepository;
   }
 
