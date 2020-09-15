@@ -1,4 +1,4 @@
-package pl.patryk.spotifyintegration.configuration.interceptor;
+package pl.patryk.spotifyintegration.shared.interceptor;
 
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 

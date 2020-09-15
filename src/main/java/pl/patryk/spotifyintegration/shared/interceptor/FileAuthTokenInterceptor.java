@@ -1,8 +1,9 @@
-package pl.patryk.spotifyintegration.configuration.interceptor;
+package pl.patryk.spotifyintegration.shared.interceptor;
 
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -12,33 +13,34 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import pl.patryk.spotifyintegration.exception.PropertyNotFoundException;
+import pl.patryk.spotifyintegration.service.token.TokenService;
 
 @Slf4j
 @Component
-@Profile("propertyToken")
 @Order(Ordered.LOWEST_PRECEDENCE - 10)
-public final class PropertyAuthTokenInterceptor implements SpotifyAuthInterceptor {
+@Profile("fileToken")
+public class FileAuthTokenInterceptor implements SpotifyAuthInterceptor {
 
-  @Value("${spotify.api.token}")
-  private String token;
+  private final TokenService tokenService;
+
+  @Autowired
+  public FileAuthTokenInterceptor(
+      @Lazy TokenService tokenService) {
+    this.tokenService = tokenService;
+  }
 
   @Override
   public ClientHttpResponse intercept(HttpRequest request, byte[] body,
       ClientHttpRequestExecution execution) throws IOException {
-    log.info("PropertyToken");
+    log.info(getClass().getName());
 
     if (!CollectionUtils.isEmpty(request.getHeaders().get(HttpHeaders.AUTHORIZATION))) {
-      log.warn("Authorization header already been set, skipping.");
-    } else if (!StringUtils.isEmpty(token)) {
-      log.info("Setting token from properties.");
-      request.getHeaders().setBearerAuth(token);
+      log.info("Authorization header already been set, skipping.");
     } else {
-      throw new PropertyNotFoundException("spotify.api.token");
+      request.getHeaders().setBearerAuth(tokenService.getAccessToken());
     }
 
     return execution.execute(request, body);
   }
-}
 
+}

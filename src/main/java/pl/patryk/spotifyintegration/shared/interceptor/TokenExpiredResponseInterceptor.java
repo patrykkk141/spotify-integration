@@ -1,4 +1,4 @@
-package pl.patryk.spotifyintegration.configuration.interceptor;
+package pl.patryk.spotifyintegration.shared.interceptor;
 
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;

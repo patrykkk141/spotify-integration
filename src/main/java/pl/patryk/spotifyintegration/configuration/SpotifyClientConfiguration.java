@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
-import pl.patryk.spotifyintegration.configuration.interceptor.SpotifyAuthInterceptor;
-import pl.patryk.spotifyintegration.configuration.interceptor.TokenExpiredResponseInterceptor;
+import pl.patryk.spotifyintegration.shared.interceptor.SpotifyAuthInterceptor;
+import pl.patryk.spotifyintegration.shared.interceptor.TokenExpiredResponseInterceptor;
 
 @Configuration
 public class SpotifyClientConfiguration {

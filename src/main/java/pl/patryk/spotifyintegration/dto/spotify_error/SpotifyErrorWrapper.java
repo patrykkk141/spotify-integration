@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class SpotifyErrorWrapper {
+public class SpotifyErrorWrapper implements ISpotifyError {
 
   private SpotifyError error;
 
