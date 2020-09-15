@@ -32,7 +32,7 @@ public class FileAuthTokenInterceptor implements SpotifyAuthInterceptor {
   @Override
   public ClientHttpResponse intercept(HttpRequest request, byte[] body,
       ClientHttpRequestExecution execution) throws IOException {
-    log.info(getClass().getCanonicalName());
+    log.info(getClass().getName());
 
     if (!CollectionUtils.isEmpty(request.getHeaders().get(HttpHeaders.AUTHORIZATION))) {
       log.info("Authorization header already been set, skipping.");

@@ -35,7 +35,7 @@ public class TokenExpiredResponseInterceptor implements ClientHttpRequestInterce
   @Override
   public ClientHttpResponse intercept(HttpRequest request, byte[] body,
       ClientHttpRequestExecution execution) throws IOException {
-    log.info(getClass().getCanonicalName());
+    log.info(getClass().getName());
     ClientHttpResponse response = execution.execute(request, body);
 
     if (response.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
