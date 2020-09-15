@@ -10,7 +10,7 @@
     </parent>
     <groupId>pl.patryk</groupId>
     <artifactId>spotify-integratorion</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>spotify-integratorion</name>
     <description>Zadanie rekrutacyjne z integracją z API Spotify</description>
 
